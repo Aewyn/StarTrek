@@ -1,0 +1,52 @@
+<div xmlns:th="http://www.thymeleaf.org">
+    <head th:fragment="header(title)">
+        <link rel="icon" th:href="@{/images/icon/startrek.ico}" type="image/x-icon">
+        <link rel="stylesheet" th:href="@{/css/startrek.css}">
+        <title th:text="${title}"></title>
+    </head>
+
+    <div th:fragment="employee" th:object="${employee}">
+        <div th:if="${employee}">
+            <h1 th:text="|*{firstName} *{lastName}|"></h1>
+            <img th:src="@{'/images/profilepictures/' + *{id} + '.jpg'}">
+            <p>Nummer</p>
+            <h2 th:text="*{id}"></h2>
+            <p>Buget</p>
+            <h2 th:text="*{budget}"></h2>
+            <ul>
+                <li><a th:href="@{'/orders/' + *{id}}">Vorige bestellingen</a></li>
+                <li><a th:href="@{/orders/neworder}">Nieuwe bestelling</a></li>
+                <li><a th:href="@{/}">Startpagina</a></li>
+            </ul>
+        </div>
+        <div th:if="not ${employee}">
+            Employee not found, id:
+            <th:block th:text="${id}"></th:block>
+        </div>
+    </div>
+
+    <div th:fragment="ordersTable(orders)">
+        <div th:if="${orders}">
+            <table>
+                <thead>
+                <tr>
+                    <th>Nummer</th>
+                    <th>Omschrijving</th>
+                    <th>Bedrag</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order:${orders}" th:object="${order}">
+                    <td th:text="*{id}"></td>
+                    <td th:text="*{description}"></td>
+                    <td th:text="*{amount}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:if="not ${orders}">
+            No orders found from employee, id:
+            <th:block th:text="${employeeId}"></th:block>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments::header(title = 'Orders')">
+</head>
+<body>
+<div th:replace="fragments::ordersTable(orders = ${orderList})"></div>
+</body>
+</html>
