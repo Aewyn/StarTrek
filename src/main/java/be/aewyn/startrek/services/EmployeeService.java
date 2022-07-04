@@ -4,6 +4,7 @@ import be.aewyn.startrek.domain.Employee;
 import be.aewyn.startrek.repositories.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,5 +22,7 @@ public class EmployeeService {
     public Optional<Employee> findById(long id){
         return repository.findById(id);
     }
+
+
 
 }

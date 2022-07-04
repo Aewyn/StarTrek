@@ -15,7 +15,7 @@
             <h2 th:text="*{budget}"></h2>
             <ul>
                 <li><a th:href="@{'/orders/' + *{id}}">Vorige bestellingen</a></li>
-                <li><a th:href="@{/orders/neworder}">Nieuwe bestelling</a></li>
+                <li><a th:href="@{'/orders/neworder/form/' + *{id}}">Nieuwe bestelling</a></li>
                 <li><a th:href="@{/}">Startpagina</a></li>
             </ul>
         </div>

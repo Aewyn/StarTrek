@@ -1,6 +1,7 @@
 package be.aewyn.startrek.repositories;
 
 import be.aewyn.startrek.domain.Employee;
+import be.aewyn.startrek.exceptions.EmployeeNotFoundException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -58,6 +59,17 @@ public class EmployeeRepository {
             return Optional.of(template.queryForObject(sql,(rs, rowNum) -> rs.getBigDecimal("budget"),id));
         }catch (IncorrectResultSizeDataAccessException e){
             return Optional.empty();
+        }
+    }
+
+    public void decreaseEmployeeBudget(long id,BigDecimal amount){
+        var sql = """
+                    update werknemers
+                    set budget = budget - ?
+                    where id = ?
+                    """;
+        if(template.update(sql,id,amount) == 0){
+            throw new EmployeeNotFoundException();
         }
     }
 
