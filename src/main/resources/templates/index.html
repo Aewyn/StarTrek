@@ -3,7 +3,7 @@
 <head th:replace="fragments::header(title = 'Welkom')">
 </head>
 <body>
-<h1>Welom to Star Trek</h1>
+<h1>Welkom to Star Trek</h1>
 <ul th:each="employee:${allEmployees}" th:object="${employee}">
     <li><a th:href="@{'/employee/' + *{id}}" th:text="|*{firstName} *{lastName}|"></a></li>
 </ul>

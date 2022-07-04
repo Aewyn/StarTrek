@@ -1,7 +1,6 @@
 package be.aewyn.startrek.repositories;
 
 import be.aewyn.startrek.domain.Employee;
-import be.aewyn.startrek.exceptions.EmployeeNotFoundException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -68,7 +67,7 @@ public class EmployeeRepository {
                     set budget = budget - ?
                     where id = ?
                     """;
-        if(template.update(sql,id,amount) == 0){
+        if(template.update(sql,amount,id) == 0){
             throw new EmployeeNotFoundException();
         }
     }

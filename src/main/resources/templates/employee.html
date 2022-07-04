@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments::header(title= ${employee} ? ${employee.getLastName()})"></head>
 <body>
+<div th:if="${param.notEnoughMoney}">Niet genoeg budget voor de aankoop. Nodig bedrag: <th:block th:text="${param.notEnoughMoney}"></th:block> </div>
 <div th:replace="fragments::employee(employee=${employee})"></div>
 </body>
 </html>
