@@ -1,6 +1,7 @@
 package be.aewyn.startrek.repositories;
 
 import be.aewyn.startrek.domain.Employee;
+import be.aewyn.startrek.exceptions.EmployeeNotFoundException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
