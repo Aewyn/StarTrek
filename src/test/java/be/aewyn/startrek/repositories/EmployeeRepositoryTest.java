@@ -1,12 +1,17 @@
 package be.aewyn.startrek.repositories;
 
 import be.aewyn.startrek.domain.Employee;
+import be.aewyn.startrek.exceptions.EmployeeNotFoundException;
+import be.aewyn.startrek.exceptions.NotEnoughBudgetException;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
+import java.math.BigDecimal;
+
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,5 +43,23 @@ class EmployeeRepositoryTest extends AbstractTransactionalJUnit4SpringContextTes
         assertThat(repository.findById(idFromTestEmployee()))
                 .hasValueSatisfying(employee ->
                         assertThat(employee.getFirstName()).isEqualTo("voornaam1test"));
+    }
+    @Test
+    void findByNonExistingIdShowsNoEmployees(){
+        assertThat(repository.findById(-1)).isEmpty();
+    }
+    @Test
+    void lowerBudgetWithSufficientFunds(){
+        repository.decreaseEmployeeBudget(idFromTestEmployee(), BigDecimal.TEN);
+    }
+    @Test
+    void lowerBudgetWithInsufficientFunds(){
+        assertThatExceptionOfType(NotEnoughBudgetException.class)
+                .isThrownBy(() -> repository.decreaseEmployeeBudget(idFromTestEmployee()
+                        ,BigDecimal.valueOf(100000)));
+    }
+    @Test
+    void lowerBudgetOfEmployeeThatDoesNotExist(){
+        assertThatExceptionOfType(EmployeeNotFoundException.class).isThrownBy(() -> repository.decreaseEmployeeBudget(-1,BigDecimal.TEN));
     }
 }

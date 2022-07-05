@@ -29,15 +29,11 @@ public class OrderService {
 
     @Transactional(readOnly = false)
     public void createOrder(NewOrderForm nof) {
-        //1. Check of er genoeg centen zijn
-        var budget = employeeRepository.getEmployeeBudget(nof.employeeId()).get();
-        if (budget.compareTo(nof.amount()) < 0) {
-            throw new NotEnoughBudgetException("De werknemer heeft niet genoeg geld");
-        } else {
-            //2. Haal centjes weg bij werknemer
-            employeeRepository.decreaseEmployeeBudget(nof.employeeId(), nof.amount());
-            //3. Maak order aan
+        try{
             orderRepository.createOrder(nof);
+            employeeRepository.decreaseEmployeeBudget(nof.employeeId(), nof.amount());
+        }catch (NotEnoughBudgetException e){
+            throw new NotEnoughBudgetException();
         }
     }
 }
